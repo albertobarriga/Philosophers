@@ -9,7 +9,8 @@ THREAD_FLAG = -g -I -pthread
 RM = rm -f
 
 SRCS =	main.c\
-		utils.c
+		utils.c\
+		structs.c
 
 OBJS = $(SRCS:.c=.o)
 

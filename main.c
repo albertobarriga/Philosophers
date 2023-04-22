@@ -6,7 +6,7 @@
 /*   By: abarriga <abarriga@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/04 23:58:04 by abarriga          #+#    #+#             */
-/*   Updated: 2023/04/22 17:55:04 by abarriga         ###   ########.fr       */
+/*   Updated: 2023/04/22 20:10:07 by abarriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	main(int argc, char **argv)
 	if (check_fill_args(argc, argv, &info) == 1)
 		printf("ERROR al crear args\n");
 	init_philos(&info);
-	printf("este es el tiempo: %ld", print_time());
+	printf("este es el tiempo: %ld", get_time());
 }
 
 int	check_fill_args(int argc, char **argv, t_info *info)
@@ -68,7 +68,7 @@ int	check_arg(char **argv)
 	return (0);
 }
 
-long int	print_time(void)
+time_t	get_time(void)
 {
 	long int		time;
 	struct timeval	current_time;
