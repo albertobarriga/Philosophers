@@ -6,35 +6,45 @@
 /*   By: abarriga <abarriga@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/04 23:58:04 by abarriga          #+#    #+#             */
-/*   Updated: 2023/03/06 19:35:12 by abarriga         ###   ########.fr       */
+/*   Updated: 2023/04/22 17:55:04 by abarriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int main(int argc, char **argv)
-{
-    t_p p;
+#include "philosopher.h"
 
-    if (check_fill_args(argc, argv, &p) == 0)
-		printf("ERROR");
-	printf("este es el tiempo:%l", print_time());
+int	main(int argc, char **argv)
+{
+	t_info	info;
+
+	printf("argc = %d\n", argc);
+	if (check_fill_args(argc, argv, &info) == 1)
+		printf("ERROR al crear args\n");
+	init_philos(&info);
+	printf("este es el tiempo: %ld", print_time());
 }
 
-int check_fill_args(int argc, char **argv, t_p *p)
+int	check_fill_args(int argc, char **argv, t_info *info)
 {
-    if ((argc >= 5 && argc <= 6) && arg_numeric(argv))
+	if ((argc == 5 || argc == 6) && check_arg(argv) == 0)
 	{
-		p->num_philo = ft_atoi(argv[1]);
-		p->die = ft_atoi(argv[2]);
-		p->eat = ft_atoi(argv[3]);
-		p->sleep = ft_atoi(argv[4]);
-		p->must_eat = -1;
+		info->num_philo = ft_atoi(argv[1]);
+		info->die = ft_atoi(argv[2]);
+		info->eat = ft_atoi(argv[3]);
+		info->sleep = ft_atoi(argv[4]);
+		info->must_eat = -1;
 		if (argc == 6)
-			p->must_eat = ft_atoi(argv[5]);
-		if (p->num_philo <= 0 || p->die <= 0 || p->eat <= 0 || p->sleep <= 0)
-			return (0);
-		return (1);
+		{
+			printf("entro en argc=6\n");
+			info->must_eat = ft_atoi(argv[5]);
+			if (info->must_eat < 1)
+				return (1);
+		}
+		if (info->num_philo <= 0 || info->die <= 0 || info->eat <= 0
+			|| info->sleep <= 0)
+			return (1);
+		return (0);
 	}
-	return (0);
+	return (1);
 }
 
 int	check_arg(char **argv)
@@ -42,29 +52,30 @@ int	check_arg(char **argv)
 	int	i;
 	int	j;
 
-	i = 0;
-	j = 1;
+	i = 1;
+	printf("Entra en check_num\n");
 	while (argv[i])
 	{
+		j = 0;
 		while (argv[i][j])
 		{
 			if (!(argv[i][j] >= '0' && argv[i][j] <= '9'))
-				return (0);
+				return (1);
 			j++;
 		}
 		i++;
 	}
-	return (1);
+	return (0);
 }
 
 long int	print_time(void)
 {
-	long int 		time;
+	long int		time;
 	struct timeval	current_time;
 
 	time = 0;
 	if (gettimeofday(&current_time, NULL) == -1)
-		printf("ERROR");
-	time = 	(current_time.tv_sec * 1000) + (current_time.tv_usec / 1000);
+		printf("ERROR en el tiempo");
+	time = (current_time.tv_sec * 1000) + (current_time.tv_usec / 1000);
 	return (time);
 }
