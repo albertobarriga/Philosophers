@@ -10,7 +10,8 @@ RM = rm -f
 
 SRCS =	main.c\
 		utils.c\
-		structs.c
+		structs.c\
+		routine.c
 
 OBJS = $(SRCS:.c=.o)
 

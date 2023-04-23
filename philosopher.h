@@ -19,14 +19,18 @@
 # include <stdlib.h>
 # include <sys/time.h>
 
+typedef struct s_philo t_philo;
+
 typedef struct s_info
 {
-	int		num_philo;
-	int		die;
-	int		eat;
-	int		sleep;
-	int		must_eat;
-	time_t	start_time;
+	int			num_philo;
+	int			die;
+	int			eat;
+	int			sleep;
+	int			must_eat;
+	time_t		start_time;
+	t_philo		*philo;
+	pthread_t	*threads_id;
 }		t_info;
 
 typedef struct s_philo
@@ -35,13 +39,17 @@ typedef struct s_philo
 	time_t			last_eat;
 	int				meal_count;
 	t_info			*info;
-	pthread_mutex_t fork;
+	pthread_mutex_t fork_l;
+	pthread_mutex_t *fork_r;
+
+	
 }		t_philo;
 
 int			check_fill_args(int argc, char **argv, t_info *info);
 int			check_arg(char **argv);
 time_t		get_time(void);
 int			ft_atoi(const char *str);
-void		init_philos(t_info *info);
+void		init_struct(t_info *info);
+void		init_threads(t_info *info);
 
 #endif

@@ -19,7 +19,8 @@ int	main(int argc, char **argv)
 	printf("argc = %d\n", argc);
 	if (check_fill_args(argc, argv, &info) == 1)
 		printf("ERROR al crear args\n");
-	init_philos(&info);
+	init_struct(&info);
+	init_threads(&info);
 	printf("este es el tiempo: %ld", get_time());
 }
 
