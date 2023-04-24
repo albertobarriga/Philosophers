@@ -6,7 +6,7 @@
 /*   By: abarriga <abarriga@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/04 23:58:04 by abarriga          #+#    #+#             */
-/*   Updated: 2023/04/22 20:10:07 by abarriga         ###   ########.fr       */
+/*   Updated: 2023/04/24 18:56:14 by abarriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	main(int argc, char **argv)
 		printf("ERROR al crear args\n");
 	init_struct(&info);
 	init_threads(&info);
-	printf("este es el tiempo: %ld", get_time());
+	// printf("este es el tiempo: %ld", get_time());
 }
 
 int	check_fill_args(int argc, char **argv, t_info *info)
@@ -33,9 +33,9 @@ int	check_fill_args(int argc, char **argv, t_info *info)
 		info->eat = ft_atoi(argv[3]);
 		info->sleep = ft_atoi(argv[4]);
 		info->must_eat = -1;
+		info->philo_die = 0;
 		if (argc == 6)
 		{
-			printf("entro en argc=6\n");
 			info->must_eat = ft_atoi(argv[5]);
 			if (info->must_eat < 1)
 				return (1);
@@ -54,7 +54,6 @@ int	check_arg(char **argv)
 	int	j;
 
 	i = 1;
-	printf("Entra en check_num\n");
 	while (argv[i])
 	{
 		j = 0;

@@ -6,7 +6,7 @@
 /*   By: abarriga <abarriga@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 18:50:54 by abarriga          #+#    #+#             */
-/*   Updated: 2023/04/22 20:10:37 by abarriga         ###   ########.fr       */
+/*   Updated: 2023/04/24 19:00:16 by abarriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,33 @@ void	init_threads(t_info *info)
 		printf("ERROR");
 	while (++i < info->num_philo)
 	{
-		if (pthread_create(&info->threads_id[i], 0, routine, &info->philo[i]))
+		if (pthread_create(&info->threads_id[i], NULL,
+				routine, &info->philo[i]))
 			printf("ERROR");
+	}
+	pthread_create(&info->revisor, NULL, routine_revisor, info);
+	pthread_join(info->threads_id[0], NULL);
+	pthread_join(info->revisor, NULL);
+}
+
+void	*routine_revisor(void *argc)
+{
+	t_info	*info;
+	int		i;
+
+	info = (t_info *)argc;
+	while (1)
+	{
+		i = -1;
+		while (++i < info->num_philo)
+		{
+			if (get_time() - info->philo[i].last_eat > ((time_t)info->die))
+			{
+				print_routine(info->philo, 4);
+				info->philo_die = 1;
+				return (NULL);
+			}
+		}
+		usleep(500);
 	}
 }

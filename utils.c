@@ -6,7 +6,7 @@
 /*   By: abarriga <abarriga@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 16:38:47 by abarriga          #+#    #+#             */
-/*   Updated: 2023/04/22 16:38:48 by abarriga         ###   ########.fr       */
+/*   Updated: 2023/04/24 18:01:10 by abarriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,4 +36,31 @@ int	ft_atoi(const char *str)
 	}
 	res = res * s;
 	return (res);
+}
+
+void	ft_sleep(time_t period, t_info *info)
+{
+	time_t	time_now;
+
+	(void)info;
+	time_now = get_time();
+	while ((get_time() - time_now) < period)
+		usleep(500);
+}
+
+void	print_routine(t_philo *p, int i)
+{
+	char	*routine;
+
+	if (i == 0)
+		routine = "has taken a fork";
+	else if (i == 1)
+		routine = "is eating";
+	else if (i == 2)
+		routine = "is sleeping";
+	else if (i == 3)
+		routine = "is thinking";
+	else
+		routine = "died";
+	printf("%ld %d %s\n", get_time(), p->id, routine);
 }
