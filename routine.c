@@ -6,7 +6,7 @@
 /*   By: abarriga <abarriga@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 11:36:28 by abarriga          #+#    #+#             */
-/*   Updated: 2023/04/25 17:41:46 by abarriga         ###   ########.fr       */
+/*   Updated: 2023/04/25 18:27:20 by abarriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,9 @@ void	eat(t_philo *p)
 {
 	print_routine(p, 1);
 	ft_sleep(p->info->eat, p->info);
+	pthread_mutex_lock(&p->lock_last_eat);
 	p->last_eat = get_time();
+	pthread_mutex_unlock(&p->lock_last_eat);
 	p->meal_count += 1;
 	pthread_mutex_unlock(&p->fork_l);
 	pthread_mutex_unlock(p->fork_r);

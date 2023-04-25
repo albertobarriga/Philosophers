@@ -6,7 +6,7 @@
 /*   By: abarriga <abarriga@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 12:17:50 by abarriga          #+#    #+#             */
-/*   Updated: 2023/04/25 12:09:21 by abarriga         ###   ########.fr       */
+/*   Updated: 2023/04/25 18:45:54 by abarriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ typedef struct s_philo
 	t_info			*info;
 	pthread_mutex_t	fork_l;
 	pthread_mutex_t	*fork_r;
-
+	pthread_mutex_t	lock_last_eat;
 }		t_philo;
 
 int			check_fill_args(int argc, char **argv, t_info *info);
@@ -54,11 +54,13 @@ time_t		get_time(void);
 int			ft_atoi(const char *str);
 void		ft_sleep(time_t period, t_info *info);
 void		print_routine(t_philo *p, int i);
+void		ft_clean(t_info *info);
 /*structs.c*/
 void		init_struct(t_info *info);
 void		init_threads(t_info *info);
 void		*routine_revisor(void *argc);
 void		join_threads(t_info *info);
+int			check_die(t_info *info, int i);
 /*routine.c*/
 void		*routine(void *arg);
 void		take_fork(t_philo *p);

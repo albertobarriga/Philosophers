@@ -6,7 +6,7 @@
 /*   By: abarriga <abarriga@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 18:50:54 by abarriga          #+#    #+#             */
-/*   Updated: 2023/04/25 17:54:27 by abarriga         ###   ########.fr       */
+/*   Updated: 2023/04/25 18:46:37 by abarriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	init_struct(t_info *info)
 	while (info->num_philo > ++i)
 	{
 		p[i].id = i;
+		pthread_mutex_init(&p[i].lock_last_eat, NULL);
 		p[i].last_eat = get_time();
 		p[i].meal_count = 0;
 		p[i].info = info;
@@ -70,7 +71,8 @@ void	*routine_revisor(void *argc)
 		{
 			if (info->must_eat != -1 && info->must_eat <= info->philo[i].meal_count)
 				philo_finish += 1;
-			if (get_time() - info->philo[i].last_eat > ((time_t)info->die))
+			// if (get_time() - info->philo[i].last_eat > ((time_t)info->die))
+			if (check_die(info, i))
 			{
 				print_routine(info->philo, 4);
 				pthread_mutex_lock(&info->print);
@@ -86,6 +88,18 @@ void	*routine_revisor(void *argc)
 		}
 		usleep(500);
 	}
+}
+
+int	check_die(t_info *info, int i)
+{
+	pthread_mutex_lock(&info->philo[i].lock_last_eat);
+	if (get_time() - info->philo[i].last_eat > ((time_t)info->die))
+	{
+		pthread_mutex_unlock(&info->philo[i].lock_last_eat);
+		return (1);
+	}
+	pthread_mutex_unlock(&info->philo[i].lock_last_eat);
+	return (0);
 }
 
 // void	join_threads(t_info *info)

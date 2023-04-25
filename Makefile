@@ -2,9 +2,9 @@ NAME = philo
 
 CC = gcc
 
-CFLAGS = -Werror -Wextra -Wall 
+CFLAGS = -Werror -Wextra -Wall -g -I -pthread -fsanitize=thread
 
-THREAD_FLAG = -g -I -pthread
+# THREAD_FLAG = -g -I -pthread
 
 RM = rm -f
 
@@ -18,7 +18,7 @@ OBJS = $(SRCS:.c=.o)
 
 
 $(NAME) : $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) $(THREAD_FLAG)
+	$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
 	echo "$(NAME) compiled"
 
 all : $(NAME)
