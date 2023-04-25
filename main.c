@@ -6,7 +6,7 @@
 /*   By: abarriga <abarriga@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/04 23:58:04 by abarriga          #+#    #+#             */
-/*   Updated: 2023/04/24 18:56:14 by abarriga         ###   ########.fr       */
+/*   Updated: 2023/04/25 17:11:31 by abarriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ int	main(int argc, char **argv)
 		printf("ERROR al crear args\n");
 	init_struct(&info);
 	init_threads(&info);
+	//join_threads(&info);
 	// printf("este es el tiempo: %ld", get_time());
 }
 

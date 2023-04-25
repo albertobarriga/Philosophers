@@ -6,7 +6,7 @@
 /*   By: abarriga <abarriga@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 11:36:28 by abarriga          #+#    #+#             */
-/*   Updated: 2023/04/24 18:59:19 by abarriga         ###   ########.fr       */
+/*   Updated: 2023/04/25 17:09:10 by abarriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	*routine(void *arg)
 	p = (t_philo *)arg;
 	if (p->id % 2)
 		usleep(250);
+	// verificar que no haya ningun hilo muerto y que si todas han comido el numero de veces que necesitan comer termine
 	while (p->info->philo_die == 0)
 	{
 		take_fork(p);
@@ -33,6 +34,13 @@ void	take_fork(t_philo *p)
 {
 	pthread_mutex_lock(&p->fork_l);
 	print_routine(p, 0);
+	// if (p->info->num_philo == 1)
+	// {
+	// 	usleep(1000 * p->info->die);
+	// 	p->info->philo_die = 1;
+	// 	pthread_mutex_unlock(&p->fork_l);
+	// 	print_routine(p, 4);
+	// }
 	pthread_mutex_lock(p->fork_r);
 	print_routine(p, 0);
 }

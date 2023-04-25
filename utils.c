@@ -6,7 +6,7 @@
 /*   By: abarriga <abarriga@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 16:38:47 by abarriga          #+#    #+#             */
-/*   Updated: 2023/04/24 18:01:10 by abarriga         ###   ########.fr       */
+/*   Updated: 2023/04/25 12:13:43 by abarriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,5 +62,7 @@ void	print_routine(t_philo *p, int i)
 		routine = "is thinking";
 	else
 		routine = "died";
-	printf("%ld %d %s\n", get_time(), p->id, routine);
+	pthread_mutex_lock(&p->info->print);
+	printf("%ld %d %s\n", get_time(), p->id + 1, routine);
+	pthread_mutex_unlock(&p->info->print);
 }
