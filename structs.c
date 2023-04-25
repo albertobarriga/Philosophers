@@ -6,7 +6,7 @@
 /*   By: abarriga <abarriga@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 18:50:54 by abarriga          #+#    #+#             */
-/*   Updated: 2023/04/25 17:26:59 by abarriga         ###   ########.fr       */
+/*   Updated: 2023/04/25 17:54:27 by abarriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	init_struct(t_info *info)
 		p[i].fork_r = &p[(i + 1) % info->num_philo].fork_l;
 	}
 	info->philo = p;
-	// pthread_mutex_init(&info->print, NULL);
+	pthread_mutex_init(&info->print, NULL);
 }
 
 void	init_threads(t_info *info)
@@ -52,7 +52,7 @@ void	init_threads(t_info *info)
 	// pthread_join(info->threads_id[0], NULL);
 	// join_threads(info);
 	pthread_join(info->revisor, NULL);
-	printf("ha llegado al finaal\n");
+	// printf("ha llegado al finaal\n");
 }
 
 void	*routine_revisor(void *argc)
@@ -73,21 +73,26 @@ void	*routine_revisor(void *argc)
 			if (get_time() - info->philo[i].last_eat > ((time_t)info->die))
 			{
 				print_routine(info->philo, 4);
+				pthread_mutex_lock(&info->print);
 				info->philo_die = 1;
 				return (NULL);
 			}
 		}
 		if (philo_finish == info->num_philo)
+		{
+			info->philo_die = 1;
+			pthread_mutex_lock(&info->print);
 			return (NULL);
+		}
 		usleep(500);
 	}
 }
 
-void	join_threads(t_info *info)
-{
-	int	i;
+// void	join_threads(t_info *info)
+// {
+// 	int	i;
 
-	i = -1;
-	while (++i < info->num_philo)
-		pthread_join(info->threads_id[i], NULL);
-}
+// 	i = -1;
+// 	while (++i < info->num_philo)
+// 		pthread_join(info->threads_id[i], NULL);
+// }
