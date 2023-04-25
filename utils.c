@@ -6,7 +6,7 @@
 /*   By: abarriga <abarriga@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 16:38:47 by abarriga          #+#    #+#             */
-/*   Updated: 2023/04/25 18:11:20 by abarriga         ###   ########.fr       */
+/*   Updated: 2023/04/25 19:17:48 by abarriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,8 @@ void	print_routine(t_philo *p, int i)
 	else
 		routine = "died";
 	pthread_mutex_lock(&p->info->print);
-	printf("%ld %d %s\n", (get_time() - p->info->start_time), p->id + 1, routine);
+	printf("%ld %d %s\n", (get_time() - p->info->start_time),
+		p->id + 1, routine);
 	pthread_mutex_unlock(&p->info->print);
 }
 
@@ -78,5 +79,7 @@ void	ft_clean(t_info *info)
 	while (++i < info->num_philo)
 	{
 		pthread_mutex_destroy(&info->philo[i].fork_l);
+		pthread_mutex_destroy(&info->philo[i].lock_last_eat);
+		pthread_mutex_destroy(&info->philo[i].lock_meal_count);
 	}
 }
