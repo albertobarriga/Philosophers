@@ -6,7 +6,7 @@
 /*   By: abarriga <abarriga@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 11:36:28 by abarriga          #+#    #+#             */
-/*   Updated: 2023/04/25 18:56:34 by abarriga         ###   ########.fr       */
+/*   Updated: 2023/04/27 17:09:01 by abarriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	*routine(void *arg)
 	p = (t_philo *)arg;
 	if (p->id % 2)
 		usleep(250);
-	while (p->info->philo_die == 0)
+	while (all_alive(p->info))
 	{
 		take_fork(p);
 		eat(p);
@@ -27,6 +27,14 @@ void	*routine(void *arg)
 		think(p);
 	}
 	return (NULL);
+}
+
+int	all_alive(t_info *info)
+{
+	pthread_mutex_lock(&info->lock_philo_die);
+	if (info->philo_die == 0)
+		return (pthread_mutex_unlock(&info->lock_philo_die), 1);
+	return (pthread_mutex_unlock(&info->lock_philo_die), 0);
 }
 
 void	take_fork(t_philo *p)
@@ -41,12 +49,12 @@ void	eat(t_philo *p)
 {
 	print_routine(p, 1);
 	ft_sleep(p->info->eat, p->info);
-	pthread_mutex_lock(&p->lock_last_eat);
+	pthread_mutex_lock(&p->info->lock_last_eat);
 	p->last_eat = get_time();
-	pthread_mutex_unlock(&p->lock_last_eat);
-	pthread_mutex_lock(&p->lock_meal_count);
+	pthread_mutex_unlock(&p->info->lock_last_eat);
+	pthread_mutex_lock(&p->info->lock_meal_count);
 	p->meal_count += 1;
-	pthread_mutex_unlock(&p->lock_meal_count);
+	pthread_mutex_unlock(&p->info->lock_meal_count);
 	pthread_mutex_unlock(&p->fork_l);
 	pthread_mutex_unlock(p->fork_r);
 }

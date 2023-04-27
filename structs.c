@@ -6,7 +6,7 @@
 /*   By: abarriga <abarriga@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 18:50:54 by abarriga          #+#    #+#             */
-/*   Updated: 2023/04/25 19:18:37 by abarriga         ###   ########.fr       */
+/*   Updated: 2023/04/27 17:08:05 by abarriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,15 @@ void	init_struct(t_info *info)
 	while (info->num_philo > ++i)
 	{
 		p[i].id = i;
-		pthread_mutex_init(&p[i].lock_last_eat, NULL);
 		p[i].last_eat = get_time();
-		pthread_mutex_init(&p[i].lock_meal_count, NULL);
 		p[i].meal_count = 0;
 		p[i].info = info;
 		pthread_mutex_init(&p[i].fork_l, NULL);
 		p[i].fork_r = &p[(i + 1) % info->num_philo].fork_l;
 	}
+	pthread_mutex_init(&info->lock_philo_die, NULL);
+	pthread_mutex_init(&info->lock_meal_count, NULL);
+	pthread_mutex_init(&info->lock_last_eat, NULL);
 	info->philo = p;
 	pthread_mutex_init(&info->print, NULL);
 }
@@ -67,20 +68,26 @@ void	*routine_revisor(void *argc)
 		i = -1;
 		while (++i < info->num_philo)
 		{
+			pthread_mutex_lock(&info->lock_meal_count);
 			if (info->must_eat != -1 && info->must_eat <= info->philo[i].meal_count)
 				philo_finish += 1;
+			pthread_mutex_unlock(&info->lock_meal_count);
 			// philo_finish += check_meals(info, i);
 			if (check_die(info, i))
 			{
 				print_routine(info->philo, 4);
 				pthread_mutex_lock(&info->print);
+				pthread_mutex_lock(&info->lock_philo_die);
 				info->philo_die = 1;
+				pthread_mutex_unlock(&info->lock_philo_die);
 				return (NULL);
 			}
 		}
 		if (philo_finish == info->num_philo)
 		{
+			pthread_mutex_lock(&info->lock_philo_die);
 			info->philo_die = 1;
+			pthread_mutex_unlock(&info->lock_philo_die);
 			pthread_mutex_lock(&info->print);
 			return (NULL);
 		}
@@ -90,13 +97,13 @@ void	*routine_revisor(void *argc)
 
 int	check_die(t_info *info, int i)
 {
-	pthread_mutex_lock(&info->philo[i].lock_last_eat);
+	pthread_mutex_lock(&info->lock_last_eat);
 	if (get_time() - info->philo[i].last_eat > ((time_t)info->die))
 	{
-		pthread_mutex_unlock(&info->philo[i].lock_last_eat);
+		pthread_mutex_unlock(&info->lock_last_eat);
 		return (1);
 	}
-	pthread_mutex_unlock(&info->philo[i].lock_last_eat);
+	pthread_mutex_unlock(&info->lock_last_eat);
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: abarriga <abarriga@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/04 23:58:04 by abarriga          #+#    #+#             */
-/*   Updated: 2023/04/25 19:19:37 by abarriga         ###   ########.fr       */
+/*   Updated: 2023/04/27 16:52:33 by abarriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	main(int argc, char **argv)
 		printf("ERROR al crear args\n");
 	init_struct(&info);
 	init_threads(&info);
-	join_threads(&info);
+	// join_threads(&info);
 	ft_clean(&info);
 }
 
@@ -84,12 +84,12 @@ time_t	get_time(void)
 
 int	check_meals(t_info *info, int i)
 {
-	pthread_mutex_lock(&info->philo[i].lock_meal_count);
+	pthread_mutex_lock(&info->lock_meal_count);
 	if (info->must_eat != -1 && info->must_eat <= info->philo[i].meal_count)
 	{
-		pthread_mutex_unlock(&info->philo[i].lock_meal_count);
+		pthread_mutex_unlock(&info->lock_meal_count);
 		return (1);
 	}
-	pthread_mutex_unlock(&info->philo[i].lock_meal_count);
+	pthread_mutex_unlock(&info->lock_meal_count);
 	return (0);
 }

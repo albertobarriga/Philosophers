@@ -6,7 +6,7 @@
 /*   By: abarriga <abarriga@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 12:17:50 by abarriga          #+#    #+#             */
-/*   Updated: 2023/04/25 19:04:57 by abarriga         ###   ########.fr       */
+/*   Updated: 2023/04/27 17:06:51 by abarriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,9 @@ typedef struct s_info
 	pthread_t		revisor;
 	int				philo_die;
 	pthread_mutex_t	print;
+	pthread_mutex_t	lock_last_eat;
+	pthread_mutex_t	lock_meal_count;
+	pthread_mutex_t	lock_philo_die;
 }		t_info;
 
 typedef struct s_philo
@@ -44,8 +47,6 @@ typedef struct s_philo
 	t_info			*info;
 	pthread_mutex_t	fork_l;
 	pthread_mutex_t	*fork_r;
-	pthread_mutex_t	lock_last_eat;
-	pthread_mutex_t	lock_meal_count;
 }		t_philo;
 
 int			check_fill_args(int argc, char **argv, t_info *info);
@@ -72,5 +73,6 @@ void		take_fork(t_philo *p);
 void		eat(t_philo *p);
 void		rout_sleep(t_philo *p);
 void		think(t_philo *p);
+int			all_alive(t_info *info);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: abarriga <abarriga@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 16:38:47 by abarriga          #+#    #+#             */
-/*   Updated: 2023/04/25 19:17:48 by abarriga         ###   ########.fr       */
+/*   Updated: 2023/04/27 17:13:23 by abarriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,10 +76,11 @@ void	ft_clean(t_info *info)
 	free(info->threads_id);
 	free(info->philo);
 	pthread_mutex_destroy(&info->print);
+	pthread_mutex_destroy(&info->lock_last_eat);
+	pthread_mutex_destroy(&info->lock_meal_count);
+	pthread_mutex_destroy(&info->lock_philo_die);
 	while (++i < info->num_philo)
 	{
 		pthread_mutex_destroy(&info->philo[i].fork_l);
-		pthread_mutex_destroy(&info->philo[i].lock_last_eat);
-		pthread_mutex_destroy(&info->philo[i].lock_meal_count);
 	}
 }
