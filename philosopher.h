@@ -6,7 +6,7 @@
 /*   By: abarriga <abarriga@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 12:17:50 by abarriga          #+#    #+#             */
-/*   Updated: 2023/05/01 16:00:15 by abarriga         ###   ########.fr       */
+/*   Updated: 2023/05/01 20:33:18 by abarriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ int			ft_atoi(const char *str);
 void		ft_sleep(time_t period, t_info *info);
 void		print_routine(t_philo *p, int i);
 void		ft_clean(t_info *info);
+void		check_finish(t_info *info);
 
 /*structs.c*/
 void		init_struct(t_info *info);

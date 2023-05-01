@@ -6,7 +6,7 @@
 /*   By: abarriga <abarriga@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/04 23:58:04 by abarriga          #+#    #+#             */
-/*   Updated: 2023/05/01 18:16:22 by abarriga         ###   ########.fr       */
+/*   Updated: 2023/05/01 20:33:27 by abarriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,11 @@ int	main(int argc, char **argv)
 {
 	t_info	info;
 
-	printf("argc = %d\n", argc);
 	if (check_fill_args(argc, argv, &info) == 1)
 		printf("ERROR al crear args\n");
 	init_struct(&info);
 	init_threads(&info);
 	ft_clean(&info);
-	system("leaks philo");
 }
 
 int	check_fill_args(int argc, char **argv, t_info *info)

@@ -6,7 +6,7 @@
 /*   By: abarriga <abarriga@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 18:50:54 by abarriga          #+#    #+#             */
-/*   Updated: 2023/05/01 17:31:07 by abarriga         ###   ########.fr       */
+/*   Updated: 2023/05/01 20:32:52 by abarriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,29 +68,18 @@ void	*routine_revisor(void *argc)
 		i = -1;
 		while (++i < info->num_philo)
 		{
-			pthread_mutex_lock(&info->lock_meal_count);
-			if (info->must_eat != -1 && info->must_eat <= info->philo[i].meal_count)
-				philo_finish += 1;
-			pthread_mutex_unlock(&info->lock_meal_count);
-			// philo_finish += check_meals(info, i);
+			philo_finish += check_meals(info, i);
 			if (check_die(info, i))
 			{
 				print_routine(info->philo, 4);
 				pthread_mutex_lock(&info->print);
 				pthread_mutex_lock(&info->lock_philo_die);
 				info->philo_die = 1;
-				pthread_mutex_unlock(&info->lock_philo_die);
-				return (NULL);
+				return (pthread_mutex_unlock(&info->lock_philo_die), NULL);
 			}
 		}
 		if (philo_finish == info->num_philo)
-		{
-			pthread_mutex_lock(&info->lock_philo_die);
-			info->philo_die = 1;
-			pthread_mutex_unlock(&info->lock_philo_die);
-			pthread_mutex_lock(&info->print);
-			return (NULL);
-		}
+			return (check_finish(info), NULL);
 		usleep(500);
 	}
 }

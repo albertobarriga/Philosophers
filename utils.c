@@ -6,7 +6,7 @@
 /*   By: abarriga <abarriga@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 16:38:47 by abarriga          #+#    #+#             */
-/*   Updated: 2023/04/27 17:13:23 by abarriga         ###   ########.fr       */
+/*   Updated: 2023/05/01 20:30:03 by abarriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,4 +83,12 @@ void	ft_clean(t_info *info)
 	{
 		pthread_mutex_destroy(&info->philo[i].fork_l);
 	}
+}
+
+void	check_finish(t_info *info)
+{
+	pthread_mutex_lock(&info->lock_philo_die);
+	info->philo_die = 1;
+	pthread_mutex_unlock(&info->lock_philo_die);
+	pthread_mutex_lock(&info->print);
 }
