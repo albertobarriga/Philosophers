@@ -6,7 +6,7 @@
 /*   By: abarriga <abarriga@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 12:17:50 by abarriga          #+#    #+#             */
-/*   Updated: 2023/04/27 17:06:51 by abarriga         ###   ########.fr       */
+/*   Updated: 2023/05/01 16:00:15 by abarriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ void		*routine(void *arg);
 void		take_fork(t_philo *p);
 void		eat(t_philo *p);
 void		rout_sleep(t_philo *p);
-void		think(t_philo *p);
 int			all_alive(t_info *info);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: abarriga <abarriga@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 11:36:28 by abarriga          #+#    #+#             */
-/*   Updated: 2023/04/27 17:09:01 by abarriga         ###   ########.fr       */
+/*   Updated: 2023/05/01 18:16:31 by abarriga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ void	*routine(void *arg)
 		take_fork(p);
 		eat(p);
 		rout_sleep(p);
-		think(p);
 	}
 	return (NULL);
 }
@@ -63,9 +62,5 @@ void	rout_sleep(t_philo *p)
 {
 	print_routine(p, 2);
 	ft_sleep(p->info->sleep, p->info);
-}
-
-void	think(t_philo *p)
-{
 	print_routine(p, 3);
 }
